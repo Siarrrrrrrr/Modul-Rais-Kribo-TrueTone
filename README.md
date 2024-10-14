@@ -1,4 +1,4 @@
-# Rais-Kribo-TrueTone 1.8
+# Rais-Kribo-TrueTone 1.9.1
 
 This Modul Im Create for Automatic Color when Brightness is increase or Decrease, yess maybe im try to port Truetone on Android
 
