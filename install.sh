@@ -1,4 +1,6 @@
-git #!/bin/sh
+#!/bin/sh
+
+# shellcheck disable=SC2034
 
 SKIPMOUNT=false
 PROPFILE=false
