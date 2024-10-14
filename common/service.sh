@@ -89,15 +89,6 @@ if [ -d "$kcal_1" ]; then
         	echo "$current_kcal_sat" > /sys/devices/platform/kcal_ctrl.0/kcal_sat
     		sleep 1
 	done > /dev/null 2>&1 &
-	function boot_wait() {
-    		while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done
-	}
-	function sf_saturation_boost() {
-    		service call SurfaceFlinger 1023 i32 0
-    		service call SurfaceFlinger 1022 f 1.5
-	}
-	boot_wait
-	sf_saturation_boost
 elif [ -n "$kcal_2" ]; then
     	echo "0" >/sys/module/msm_drm/parameters/kcal_hue
 	while true; do
@@ -175,23 +166,15 @@ elif [ -n "$kcal_2" ]; then
     		echo "$current_blue_value" > /sys/module/msm_drm/parameters/kcal_blue
     	sleep 1
 	done > /dev/null 2>&1 &
-	function boot_wait() {
-    		while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done
-	}
-	function sf_saturation_boost() {
-    		service call SurfaceFlinger 1023 i32 0
-    		service call SurfaceFlinger 1022 f 1.5
-	}
-	boot_wait
-	sf_saturation_boost
-else
-    	function boot_wait() {
-	while [[ -z $(getprop sys.boot_completed) ]]; do sleep 1; done
-	}
-	function sf_saturation_boost() {
-  	service call SurfaceFlinger 1023 i32 0
-  	service call SurfaceFlinger 1022 f 1.5
-	}
-	boot_wait
-	sf_saturation_boost
 fi
+boot_wait() {
+  while [ -z "$(getprop sys.boot_completed)" ]; do
+    sleep 1
+  done
+}
+sf_saturation_boost() {
+  service call SurfaceFlinger 1023 i32 0
+  service call SurfaceFlinger 1022 f 1.5
+}
+boot_wait
+sf_saturation_boost
